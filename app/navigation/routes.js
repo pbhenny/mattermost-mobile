@@ -10,6 +10,7 @@ import {
     ChannelAddMembers,
     LoadTeam,
     Login,
+    LoginOptions,
     Mfa,
     MoreChannels,
     MoreDirectMessages,
@@ -20,7 +21,8 @@ import {
     SelectServer,
     SelectTeam,
     Thread,
-    UserProfile
+    UserProfile,
+    Saml
 } from 'app/scenes';
 
 import keyMirror from 'service/utils/key_mirror';
@@ -81,6 +83,14 @@ export const Routes = {
         component: Login,
         navigationProps: {
             title: {id: 'mobile.routes.login', defaultMessage: 'Login'}
+        }
+    },
+    LoginOptions: {
+        key: 'LoginOptions',
+        transition: RouteTransitions.Horizontal,
+        component: LoginOptions,
+        navigationProps: {
+            title: {id: 'mobile.routes.loginOptions', defaultMessage: 'Login Chooser'}
         }
     },
     Mfa: {
@@ -150,6 +160,14 @@ export const Routes = {
         component: UserProfile,
         navigationProps: {
             title: {id: 'mobile.routes.user_profile', defaultMessage: 'Profile'}
+        }
+    },
+    Saml: {
+        key: 'Saml',
+        transition: RouteTransitions.Horizontal,
+        component: Saml,
+        navigationProps: {
+            title: {id: 'mobile.routes.saml', defaultMessage: 'Single SignOn'}
         }
     }
 };

@@ -1,7 +1,7 @@
 // Copyright (c) 2016 Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
-import React, {Component} from 'react';
+import React, {PropTypes, PureComponent} from 'react';
 import {
     Image,
     Keyboard,
@@ -13,6 +13,7 @@ import Button from 'react-native-button';
 import ErrorText from 'app/components/error_text';
 import FormattedText from 'app/components/formatted_text';
 import KeyboardLayout from 'app/components/layout/keyboard_layout';
+import Loading from 'app/components/loading';
 import TextInputWithLocalizedPlaceholder from 'app/components/text_input_with_localized_placeholder';
 import {GlobalStyles} from 'app/styles';
 
@@ -21,11 +22,20 @@ import logo from 'assets/images/logo.png';
 import Client from 'service/client';
 import RequestStatus from 'service/constants/request_status';
 
-export default class SelectServer extends Component {
+export default class SelectServer extends PureComponent {
     static propTypes = {
-        serverUrl: React.PropTypes.string.isRequired,
-        server: React.PropTypes.object.isRequired,
-        actions: React.PropTypes.object.isRequired
+        serverUrl: PropTypes.string.isRequired,
+        server: PropTypes.object.isRequired,
+        config: PropTypes.object.isRequired,
+        license: PropTypes.object.isRequired,
+        configRequest: PropTypes.object.isRequired,
+        licenseRequest: PropTypes.object.isRequired,
+        actions: PropTypes.shape({
+            getClientConfig: PropTypes.func.isRequired,
+            getLicenseConfig: PropTypes.func.isRequired,
+            handleLoginOptions: PropTypes.func.isRequired,
+            handleServerUrlChanged: PropTypes.func.isRequired
+        }).isRequired
     };
 
     onClick = () => {
@@ -34,7 +44,7 @@ export default class SelectServer extends Component {
         this.props.actions.getPing().then(() => {
             if (this.props.server.status === RequestStatus.SUCCESS) {
                 Keyboard.dismiss();
-                this.props.actions.goToLogin();
+                this.props.actions.handleLoginOptions();
             }
         });
     };
@@ -48,6 +58,10 @@ export default class SelectServer extends Component {
     };
 
     render() {
+        if (this.props.configRequest.status === RequestStatus.STARTED || this.props.licenseRequest.status === RequestStatus.STARTED) {
+            return <Loading/>;
+        }
+
         return (
             <KeyboardLayout
                 behavior='padding'

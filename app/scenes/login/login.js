@@ -40,9 +40,7 @@ class Login extends Component {
         loginId: PropTypes.string.isRequired,
         password: PropTypes.string.isRequired,
         checkMfaRequest: PropTypes.object.isRequired,
-        loginRequest: PropTypes.object.isRequired,
-        configRequest: PropTypes.object.isRequired,
-        licenseRequest: PropTypes.object.isRequired
+        loginRequest: PropTypes.object.isRequired
     };
 
     constructor(props) {
@@ -201,10 +199,6 @@ class Login extends Component {
     };
 
     render() {
-        if (this.props.configRequest.status === RequestStatus.STARTED || this.props.licenseRequest.status === RequestStatus.STARTED) {
-            return <Loading/>;
-        }
-
         return (
             <KeyboardLayout
                 behavior='padding'

@@ -5,16 +5,22 @@ import {bindActionCreators} from 'redux';
 
 import navigationSceneConnect from '../navigationSceneConnect';
 
-import {getPing} from 'service/actions/general';
-import {goToLogin} from 'app/actions/navigation';
+import {getClientConfig, getLicenseConfig} from 'service/actions/general';
 import * as SelectServerActions from 'app/actions/views/select_server';
 
 import SelectServer from './select_server';
 
 function mapStateToProps(state) {
+    const {config, license} = state.entities.general;
+    const {config: configRequest, license: licenseRequest} = state.requests.general;
+
     return {
         ...state.views.selectServer,
-        server: state.requests.general.server
+        server: state.requests.general.server,
+        configRequest,
+        licenseRequest,
+        config,
+        license
     };
 }
 
@@ -22,8 +28,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             ...SelectServerActions,
-            getPing,
-            goToLogin
+            getClientConfig,
+            getLicenseConfig
         }, dispatch)
     };
 }

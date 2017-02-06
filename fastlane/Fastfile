@@ -30,7 +30,7 @@ platform :ios do
     match(type: 'adhoc')
 
     build_ios({
-              release: false,
+              release: true,
               increment_build: false,
               ensure_git_status_clean: false
           })
